@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Vue</title>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <script src="https://unpkg.com/vue"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+  <div class="nav-bar"></div>
+
+  <div id="app">
+
+      <div class="product">
+
+        <div class="product-image">
+          <img v-bind:src="pimage">
+        </div>
+
+        <div class="product-info">
+          <h1>{{product}}</h1>
+          <p v-if="inventory>10">In Stock</p>
+          <p v-else-if = "inventory<10 && inventory>0">Almost Sold out</p>
+          <p v-else>Out of Stock</p>
+          <ul>
+            <li v-for = "detail in details">{{detail}}</li>
+          </ul>
+          <div class="color-box"
+          v-for = "variant in variants"
+          :style="{backgroundColor : variant.variantColor}"
+          v-bind:key="variant.variantId"
+          v-on:mouseover = "updateProdImage(variant.variantColor)">
+          </div>
+
+          <button v-on:click = "addtoCart">Add to Cart</button>
+
+          <div class="cart">
+            <p>Cart({{cart}})</p>
+          </div>
+        </div>
+
+      </div>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        product : 'Socks',
+        pimage: "prodImage.jpg",
+        inventory: 100,
+        details: ['90% Cotton','10% Polyester', 'Gender-Neutral'],
+
+        variants: [
+        {
+          variantId: 1,
+          variantColor: 'Green',
+          variantImage: "prodImage.jpg"
+
+        },{
+          variantId: 2,
+          variantColor: 'Blue',
+          variantImage: "bluesocks.jpg"
+        }
+        ],
+
+        cart: 0
+      },
+      methods:{
+        addtoCart : function () {
+          this.cart += 1;
+        },
+        updateProdImage: function(variantImage){
+          this.pimage = variantImage
+        }
+      }
+    })
+  </script>
+</body>
+</html>
